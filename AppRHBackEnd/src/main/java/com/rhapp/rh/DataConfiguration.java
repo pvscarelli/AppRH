@@ -17,8 +17,8 @@ public class DataConfiguration {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");
 		dataSource.setUrl("jdbc:postgresql://localhost:5432/rhapp?useTimezone=true&serverTimezone=UTC");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("copySauce");
+		dataSource.setUsername("seuUsuarioAqui");
+		dataSource.setPassword("suaSenhaAqui");
 		return dataSource;
 	}
 
