@@ -1,0 +1,69 @@
+.jobDescription {
+  max-width: 500px;
+  &.jobDescription span {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+}
+
+.td {
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 780px) {
+  .td {
+    height: auto;
+  }
+  .tdBtns {
+    flex-direction: column;
+    align-items: center;
+  }
+  .updateJobBtn {
+    margin: 10px 0px;
+  }
+}
+@media (max-width: 580px) {
+  * {
+    font-size: 14px;
+  }
+  .jobsTitle {
+    font-size: 20px;
+  }
+  .jobDescription {
+    max-width: 70px;
+    & span {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+  }
+  .jobName {
+    max-width: 15px;
+  }
+
+  .btn {
+    font-size: 10px;
+    padding: 2px;
+  }
+}
+
+@media (max-width: 350px) {
+  * {
+    font-size: 10px;
+  }
+  .jobDescription {
+    max-width: 15px;
+  }
+  .btn {
+    font-size: 8px;
+    padding: 1px;
+  }
+}

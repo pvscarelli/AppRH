@@ -1,0 +1,55 @@
+<h1 class="pt-5 text-center jobsTitle">Vagas</h1>
+
+<table class="table mt-3 mb-5">
+  <thead>
+    <tr>
+      <th scope="col">Nome da vaga:</th>
+      <th scope="col">Descrição:</th>
+      <th scope="col">Salário:</th>
+      <th scope="col">Expira:</th>
+      <th scope="col-sm" class="text-center">Ações:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let job of jobs">
+      <td class="jobName">
+        <div class="td">
+          <a
+            [routerLink]="'/jobDetails/' + job.id"
+            class="text-decoration-none"
+          >
+            <span>{{ job.jobName }}</span></a
+          >
+        </div>
+      </td>
+      <td class="jobDescription">
+        <div class="td">
+          <span>{{ job.jobDescription }}</span>
+        </div>
+      </td>
+      <td>
+        <div class="td">
+          R$ <span class="">{{ job.jobSalary }}</span>
+        </div>
+      </td>
+      <td>
+        <div class="td">
+          <span>{{ job.jobDate }}</span>
+        </div>
+      </td>
+      <td class="tdBtns d-flex justify-content-center btns">
+        <a (click)="deleteJobById(job.id)"
+          ><button type="button" class="btn btn-danger">Excluir</button></a
+        >
+
+        <a class="mx-2 updateJobBtn" [routerLink]="'/updateJob/' + job.id"
+          ><button type="button" class="btn btn-primary">Editar</button></a
+        >
+
+        <a [routerLink]="'/jobDetails/' + job.id"
+          ><button type="button" class="btn btn-success">Candidatos</button></a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>

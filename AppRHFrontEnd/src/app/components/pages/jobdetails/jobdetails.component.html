@@ -1,0 +1,124 @@
+<h2 class="pt-4">Detalhes da vaga:</h2>
+<p class="pt-2">
+  <strong>Vaga: </strong> <span>{{ jobName }}</span>
+</p>
+<p>
+  <strong>Descrição do cargo: </strong>
+  <span>{{ jobDescription }}</span>
+</p>
+<p>
+  <strong>Expira em: </strong> <span>{{ jobDate }}</span>
+</p>
+<p>
+  <strong>Salário: </strong> R$ <span>{{ jobSalary }}</span>
+</p>
+
+<div
+  id="successMessage"
+  class="alert alert-success alert-dismissible"
+  role="alert"
+  *ngIf="successMessage"
+>
+  <span>{{ successMessage }}</span>
+</div>
+
+<div
+  id="errorMessage"
+  class="alert alert-danger alert-dismissible"
+  role="alert"
+  *ngIf="errorWarningMessage"
+>
+  <span>{{ errorWarningMessage }}</span>
+</div>
+
+<div>
+  <h2>Cadastrar candidato:</h2>
+
+  <form
+    class="pt-2"
+    #applicantForm="ngForm"
+    method="post"
+    (ngSubmit)="onSubmit(applicantForm)"
+  >
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label for="applicantName"><b>Nome do candidato:</b> </label>
+          <input
+            type="text"
+            [(ngModel)]="applicantName"
+            name="applicantName"
+            id="applicantName"
+            class="form-control"
+            placeholder="Nome Completo"
+            required
+          />
+        </div>
+
+        <div class="col">
+          <label for="cpf"><b>CPF: </b> </label
+          ><input
+            type="text"
+            [(ngModel)]="cpfApplicant"
+            name="cpf"
+            id="cpf"
+            placeholder="Somente números, sem traços ou pontos."
+            class="validate form-control"
+            required
+          />
+        </div>
+
+        <div class="col">
+          <label for="applicantEmail"><b>E-mail:</b> </label>
+          <input
+            type="text"
+            [(ngModel)]="applicantMail"
+            name="applicantEmail"
+            id="applicantEmail"
+            class="form-control"
+            placeholder="email@email.com"
+            required
+          />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-success mt-3">
+        Adicionar Candidato
+      </button>
+    </div>
+  </form>
+</div>
+
+<h2>Inscritos:</h2>
+
+<table class="table table-hover table-responsive table-striped mb-5">
+  <thead>
+    <tr>
+      <th scope="col coll">Nome do candidato:</th>
+      <th scope="col coll">CPF:</th>
+      <th scope="col coll">E-mail:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let applicant of applicants"
+      [id]="'applicant-' + applicant.cpf"
+    >
+      <td>
+        <span>{{ applicant.applicantName }}</span>
+      </td>
+      <td class="tdMaxW">
+        <span>{{ applicant.cpf }}</span>
+      </td>
+      <td class="tdMaxW">
+        <span>{{ applicant.applicantEmail }}</span>
+      </td>
+      <td class="d-flex justify-content-center">
+        <a (click)="deleteApplicant(applicant.cpf, jobId)">
+          <button type="button" class="btn btn-danger">Excluir</button></a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>

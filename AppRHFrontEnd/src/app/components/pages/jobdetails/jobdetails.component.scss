@@ -1,0 +1,23 @@
+.table {
+  width: 100%;
+}
+
+@media (max-width: 500px) {
+  .table {
+    font-size: 14px;
+  }
+  .tdMaxW {
+    max-width: 20px;
+    & span {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+  }
+
+  .btn {
+    padding: 3px;
+  }
+}

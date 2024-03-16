@@ -1,0 +1,96 @@
+<h1 class="pt-5">
+  {{ mode === "register" ? "Cadastrar vaga" : "Atualizar vaga" }}
+</h1>
+
+<div
+  id="successMessage"
+  class="alert alert-success alert-dismissible"
+  role="alert"
+  *ngIf="successMessage"
+>
+  <span>{{ successMessage }}</span>
+</div>
+
+<div
+  id="errorMessage"
+  class="alert alert-danger alert-dismissible"
+  role="alert"
+  *ngIf="errorMessage"
+>
+  <span>{{ errorMessage }}</span>
+</div>
+
+<form method="post" #jobForm="ngForm" (ngSubmit)="onSubmit(jobForm)">
+  <div class="form-group pt-3">
+    <label for="jobName"><b>Nome do cargo:</b> </label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="jobName"
+      placeholder="Insira o nome do cargo"
+      id="jobName"
+      name="jobName"
+      required
+    />
+    <small class="form-text text-muted"
+      ><i>* Utilize nomes e termos mais utilizados no mercado.</i></small
+    >
+  </div>
+
+  <div class="row pt-4">
+    <div class="col coll">
+      <div class="form-group">
+        <label for="jobDate"><b>Data de expiração:</b></label>
+        <input
+          type="date"
+          id="jobDate"
+          [(ngModel)]="jobDate"
+          name="jobDate"
+          class="form-control"
+          required
+        />
+        <small class="form-text text-muted"
+          ><i>* Data em que a vaga expira.</i></small
+        >
+      </div>
+    </div>
+    <div class="col coll">
+      <div class="form-group">
+        <label for="jobSalary"><b>Salário:</b></label> R$
+        <input
+          type="number"
+          pattern="^\d+(\.|\,)\d{2}$"
+          [(ngModel)]="jobSalary"
+          id="jobSalary"
+          name="jobSalary"
+          class="form-control"
+          required
+        />
+        <small class="form-text text-muted"
+          ><i>* Utilize valores considerando vírgula e ponto.</i></small
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group pt-4">
+    <label for="jobDescription"><b>Descrição da vaga:</b></label>
+    <textarea
+      class="form-control"
+      [(ngModel)]="jobDescription"
+      name="jobDescription"
+      id="jobDescription"
+      maxlength="254"
+      rows="3"
+      required
+    ></textarea>
+    <small class="form-text text-muted"
+      ><i>* Breve resumo da vaga oferecida..</i></small
+    >
+  </div>
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-success mt-5" id="sendForm">
+      {{ mode === "register" ? "Adicionar Vaga" : "Atualizar Vaga" }}
+    </button>
+  </div>
+</form>
