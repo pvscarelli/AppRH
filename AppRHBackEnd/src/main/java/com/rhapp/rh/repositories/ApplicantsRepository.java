@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 @Repository
-public interface ApplicantRepository extends JpaRepository<Applicant, UUID> {
+public interface ApplicantsRepository extends JpaRepository<Applicant, UUID> {
 
     Applicant findByCpf(String cpf);
     

@@ -28,7 +28,6 @@ public class DataConfiguration {
 		adapter.setDatabase(Database.POSTGRESQL);
 		adapter.setShowSql(true);
 		adapter.setGenerateDdl(true);
-		adapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQLDialect");
 		adapter.setPrepareConnection(true);
 		return adapter;
 	}

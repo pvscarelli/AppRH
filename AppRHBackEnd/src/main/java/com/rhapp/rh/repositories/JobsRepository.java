@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface JobRepository extends JpaRepository<Job, UUID> {
+public interface JobsRepository extends JpaRepository<Job, UUID> {
 
     List<Job> findByJobName(String jobName);
 }
