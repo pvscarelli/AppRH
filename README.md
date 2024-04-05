@@ -1,1 +1,30 @@
-Para utilizar o aplicativo, é necessário ter o Spring e o Angular 17 instalados, assim como um banco de dados configurado, depois de baixar os arquivos, se você tiver um banco de dados em PostgreSQL é só ir no arquivo DataConfiguration.java, na seção do Spring, e configurá-lo para se conectar ao seu banco de dados. Se não utilizar o PostgreSQL, é necessário introduzir a dependência do banco de dados que você esta usando no arquivo pom.xml do back-end (recomendo procurar a dependência no https://start.spring.io/), e depois sim configurá-lo no DataConfiguration. Em seguida, navegue até o arquivo RhApplication e clique em "run". O servidor backend deve ser inicializado na porta 8080 por padrão. Após isso, no terminal do diretório raiz do projeto Angular digite o comando npm install e depois ng serve. Por padrão, o servidor Angular deve ser inicializado na porta 4200. Com os dois servidores online, para utilizar o aplicativo, basta acessá-lo através do navegador na url http://localhost:4200/.
+# Instruções de Configuração do Aplicativo
+
+## Pré-requisitos
+- Spring
+- Angular 17
+- Banco de dados configurado
+
+## Configuração do Banco de Dados
+1. Após baixar os arquivos, se estiver usando **PostgreSQL**:
+ - Vá até o arquivo `DataConfiguration.java`.
+ - Na seção do Spring, configure a conexão com seu banco de dados.
+
+2. Se estiver usando outro banco de dados:
+ - Adicione a dependência do seu banco de dados no arquivo `pom.xml` do back-end.
+ - Recomenda-se procurar a dependência em Spring Initializr.
+ - Configure a conexão no `DataConfiguration.java`.
+
+## Inicialização do Servidor Backend
+- Navegue até o arquivo `RhApplication.java`.
+- Clique em "run".
+- O servidor backend deve iniciar na porta `8080` por padrão.
+
+## Inicialização do Servidor Angular
+- No terminal, navegue até o diretório raiz do projeto Angular.
+- Execute o comando `npm install`.
+- Após a instalação, execute `ng serve`.
+- O servidor Angular deve iniciar na porta `4200` por padrão.
+
+## Acesso ao Aplicativo
+- Com ambos os servidores online, acesse o aplicativo pelo navegador na URL: `http://localhost:4200/`.
