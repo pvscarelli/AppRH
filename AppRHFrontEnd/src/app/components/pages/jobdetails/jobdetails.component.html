@@ -14,21 +14,16 @@
 </p>
 
 <div
-  id="successMessage"
-  class="alert alert-success alert-dismissible"
+  id="message"
+  class="alert alert-dismissible"
   role="alert"
-  *ngIf="successMessage"
+  [ngClass]="{
+    'alert-success': message === 'Candidato cadastrado com sucesso!',
+    'alert-danger': message !== 'Candidato cadastrado com sucesso!'
+  }"
+  *ngIf="message"
 >
-  <span>{{ successMessage }}</span>
-</div>
-
-<div
-  id="errorMessage"
-  class="alert alert-danger alert-dismissible"
-  role="alert"
-  *ngIf="errorWarningMessage"
->
-  <span>{{ errorWarningMessage }}</span>
+  <span>{{ message }}</span>
 </div>
 
 <div>
@@ -46,7 +41,7 @@
           <label for="applicantName"><b>Nome do candidato:</b> </label>
           <input
             type="text"
-            [(ngModel)]="applicantName"
+            [(ngModel)]="applicantDto.name"
             name="applicantName"
             id="applicantName"
             class="form-control"
@@ -59,9 +54,13 @@
           <label for="cpf"><b>CPF: </b> </label
           ><input
             type="text"
-            [(ngModel)]="cpfApplicant"
-            name="cpf"
-            id="cpf"
+            [(ngModel)]="applicantDto.cpf"
+            (ngModelChange)="onCpfChange($event)"
+            autocomplete="off"
+            (paste)="onPaste($event)"
+            name="applicantCpf"
+            id="applicantCpf"
+            maxlength="14"
             placeholder="Somente números, sem traços ou pontos."
             class="validate form-control"
             required
@@ -72,9 +71,9 @@
           <label for="applicantEmail"><b>E-mail:</b> </label>
           <input
             type="text"
-            [(ngModel)]="applicantMail"
-            name="applicantEmail"
-            id="applicantEmail"
+            [(ngModel)]="applicantDto.mail"
+            name="applicantMail"
+            id="applicantMail"
             class="form-control"
             placeholder="email@email.com"
             required
@@ -90,7 +89,7 @@
   </form>
 </div>
 
-<h2>Inscritos:</h2>
+<h2>Candidatos:</h2>
 
 <table class="table table-hover table-responsive table-striped mb-5">
   <thead>
@@ -106,13 +105,13 @@
       [id]="'applicant-' + applicant.cpf"
     >
       <td>
-        <span>{{ applicant.applicantName }}</span>
+        <span>{{ applicant.name }}</span>
       </td>
       <td class="tdMaxW">
         <span>{{ applicant.cpf }}</span>
       </td>
       <td class="tdMaxW">
-        <span>{{ applicant.applicantEmail }}</span>
+        <span>{{ applicant.mail }}</span>
       </td>
       <td class="d-flex justify-content-center">
         <a (click)="deleteApplicant(applicant.cpf, jobId)">

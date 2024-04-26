@@ -4,6 +4,9 @@ import { JobserviceService } from '../../../services/jobservice.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ApplicantService } from '../../../services/applicant.service';
+import { ApplicantDto } from '../../../dtos/applicantdto';
+import { Job } from '../../../models/job';
+import { Applicant } from '../../../models/applicant';
 
 @Component({
   selector: 'app-jobdetails',
@@ -17,56 +20,75 @@ export class JobdetailsComponent implements OnInit {
   jobDate = '';
   jobSalary = '';
   jobDescription = '';
-  applicants: any = [];
+  applicants: Applicant[] = [];
   jobId: any = '';
-  errorWarningMessage = '';
-  successMessage = '';
-  //variaveis para referenciar no html e limpar o form
-  applicantName = '';
-  cpfApplicant = '';
-  applicantMail = '';
+  message = '';
+  applicantDto: ApplicantDto = new ApplicantDto();
 
   constructor(
     private jobService: JobserviceService,
     private route: ActivatedRoute,
     private applicanteService: ApplicantService
   ) {}
+
   ngOnInit(): void {
     this.route.url.subscribe((url) => {
       this.jobId = url[1].path;
-      this.jobService.getJob(url[1].path).subscribe((job: any) => {
-        this.jobName = job.jobName;
-        this.jobDate = job.jobDate;
-        this.jobSalary = job.jobSalary;
-        this.jobDescription = job.jobDescription;
+      this.jobService.getJob(url[1].path).subscribe((job: Job) => {
+        this.jobName = job.name;
+        this.jobDate = job.expiration.toString();
+        this.jobSalary = job.salary.toString();
+        this.jobDescription = job.description;
         this.applicants = job.applicants;
       });
     });
   }
+
   onSubmit(form: NgForm) {
-    const dataForm = new FormData(document.querySelector('form')!);
-    this.route.url.subscribe((url) => {
-      this.applicanteService.addApplicant(dataForm, url[1]).subscribe(
-        (response) => {
-          this.errorWarningMessage = '';
-          this.successMessage = 'Candidato cadastrado com sucesso!';
-          form.resetForm();
-          this.jobService.getJob(url[1].path).subscribe((job: any) => {
-            this.applicants = job.applicants;
-          });
-        },
-        (error) => {
-          this.errorWarningMessage =
-            error.error.message || 'Verifique os campos';
-          this.successMessage = '';
-        }
-      );
-    });
+    if (form.valid) {
+      this.applicanteService
+        .addApplicant(this.applicantDto, this.jobId)
+        .subscribe(
+          (response) => {
+            this.message = 'Candidato cadastrado com sucesso!';
+            form.resetForm();
+            this.jobService.getJob(this.jobId).subscribe((job: Job) => {
+              this.applicants = job.applicants;
+            });
+          },
+          (error) => {
+            this.message = error.error.message;
+          }
+        );
+    } else {
+      console.log(form);
+      this.message = 'Por favor, confira todos os campos.';
+    }
   }
+
   deleteApplicant(cpf: string, jobId: any) {
     this.applicanteService.removeApplicant(cpf, jobId).subscribe((response) => {
-      const element = document.getElementById(`applicant-${cpf}`);
-      element?.remove();
+      const shownApplicant = document.getElementById(`applicant-${cpf}`)!;
+      shownApplicant.remove();
     });
+  }
+
+  onCpfChange(cpf: string) {
+    if (cpf !== null) {
+      let inputLength = cpf.length;
+      this.cpfMask(inputLength);
+    }
+  }
+
+  cpfMask(inputLength: any) {
+    if (inputLength === 3 || inputLength === 7) {
+      this.applicantDto.cpf += '.';
+    } else if (inputLength === 11) {
+      this.applicantDto.cpf += '-';
+    }
+  }
+
+  onPaste(event: ClipboardEvent) {
+    event.preventDefault();
   }
 }

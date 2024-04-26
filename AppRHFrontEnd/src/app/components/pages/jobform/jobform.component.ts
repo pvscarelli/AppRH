@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { JobserviceService } from '../../../services/jobservice.service';
 import { ActivatedRoute } from '@angular/router';
+import { JobDto } from '../../../dtos/jobdto';
+import { Job } from '../../../models/job';
 
 @Component({
   selector: 'app-form-job',
@@ -12,13 +14,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './jobform.component.scss',
 })
 export class JobformComponent implements OnInit {
-  successMessage = '';
-  errorMessage = '';
+  message = '';
   mode = 'register';
-  jobName = '';
-  jobDate = '';
-  jobSalary = null;
-  jobDescription = '';
+  jobId = '';
+  jobDto = new JobDto();
+  jobSalary = '';
 
   constructor(
     private jobService: JobserviceService,
@@ -31,15 +31,15 @@ export class JobformComponent implements OnInit {
 
   toggleMode() {
     this.route.url.subscribe((url) => {
-      if (url[0]?.path === 'updateJob') {
+      if (url[0]?.path === 'update_job') {
         this.mode = 'update';
         this.route.params.subscribe((params) => {
-          const jobId = params['id'];
-          this.jobService.getJob(jobId).subscribe((job: any) => {
-            this.jobName = job.jobName;
-            this.jobDate = job.jobDate;
-            this.jobSalary = job.jobSalary;
-            this.jobDescription = job.jobDescription;
+          this.jobId = params['id'];
+          this.jobService.getJob(this.jobId).subscribe((job: Job) => {
+            this.jobDto.name = job.name;
+            this.jobDto.expiration = job.expiration;
+            this.jobSalary = job.salary.toString();
+            this.jobDto.description = job.description;
           });
         });
       }
@@ -47,36 +47,40 @@ export class JobformComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    const formData = new FormData(document.querySelector('form')!);
-    if (this.mode === 'register') {
-      this.jobService.createJob(formData).subscribe(
-        (response) => {
-          this.errorMessage = '';
-          this.successMessage = 'Vaga cadastrada com sucesso!';
-          form.resetForm();
-        },
-        (error) => {
-          this.successMessage = '';
-          this.errorMessage = 'Verifique os campos...';
-        }
-      );
+    if (form.valid) {
+      this.jobDto.salary = Number(this.jobSalary);
+      if (this.mode === 'register') {
+        this.registerMode(form);
+      } else {
+        this.updateMode(form);
+      }
     } else {
-      let jobId = '';
-      this.route.params.subscribe((params) => {
-        jobId = params['id'];
-      });
-      this.jobService.updateJob(jobId, formData).subscribe(
-        (response) => {
-          this.errorMessage = '';
-          this.successMessage = 'Vaga alterada com sucesso!';
-          form.resetForm();
-          this.mode = 'register';
-        },
-        (error) => {
-          this.successMessage = '';
-          this.errorMessage = 'Verifique os campos...';
-        }
-      );
+      this.message = 'Verifique os campos...';
     }
+  }
+
+  registerMode(form: NgForm) {
+    this.jobService.createJob(this.jobDto).subscribe(
+      (response) => {
+        this.message = 'Vaga cadastrada com sucesso!';
+        form.resetForm();
+      },
+      (error) => {
+        this.message = 'Verifique os campos...';
+      }
+    );
+  }
+
+  updateMode(form: NgForm) {
+    this.jobService.updateJob(this.jobId, this.jobDto).subscribe(
+      (response) => {
+        this.message = 'Vaga atualizada com sucesso!';
+        form.resetForm();
+        this.mode = 'register';
+      },
+      (error) => {
+        this.message = 'Verifique os campos...';
+      }
+    );
   }
 }

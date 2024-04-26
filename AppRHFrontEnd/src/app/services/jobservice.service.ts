@@ -1,33 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { Job } from '../models/job';
+import { JobDto } from '../dtos/jobdto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JobserviceService {
-  apiUrl = 'http://localhost:8080';
+  apiUrl = 'http://localhost:8080/v1/jobs';
   constructor(private http: HttpClient) {}
 
-  listJobs() {
+  listJobs(): Observable<Job[]> {
     return this.http
-      .get(`${this.apiUrl}/jobs`)
+      .get<Job[]>(this.apiUrl)
       .pipe(map((response) => response as []));
   }
 
-  getJob(jobId: any) {
-    return this.http.get(`${this.apiUrl}/jobs/${jobId}`);
+  getJob(jobId: any): Observable<Job> {
+    return this.http
+      .get(`${this.apiUrl}/${jobId}`)
+      .pipe(map((response) => response as Job));
   }
 
-  createJob(formData: FormData) {
-    return this.http.post(`${this.apiUrl}/postJob`, formData);
+  createJob(createJobDto: JobDto) {
+    return this.http.post(`${this.apiUrl}/post`, createJobDto);
   }
 
-  updateJob(jobId: any, formData: any) {
-    return this.http.put(`${this.apiUrl}/editJob/${jobId}`, formData);
+  updateJob(jobId: any, updateJobDto: JobDto) {
+    return this.http.put(`${this.apiUrl}/update/${jobId}`, updateJobDto);
   }
 
   deleteJobById(jobId: any) {
-    return this.http.delete(`${this.apiUrl}/deleteJob/${jobId}`);
+    return this.http.delete(`${this.apiUrl}/delete/${jobId}`);
   }
 }

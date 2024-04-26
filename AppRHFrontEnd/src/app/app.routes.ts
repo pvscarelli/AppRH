@@ -6,8 +6,8 @@ import { JobformComponent } from './components/pages/jobform/jobform.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'registerJob', component: JobformComponent },
+  { path: 'register_job', component: JobformComponent },
   { path: 'jobs', component: ListjobsComponent },
-  { path: 'updateJob/:id', component: JobformComponent },
-  { path: 'jobDetails/:id', component: JobdetailsComponent },
+  { path: 'update_job/:id', component: JobformComponent },
+  { path: 'job_details/:id', component: JobdetailsComponent },
 ];

@@ -15,26 +15,26 @@
       <td class="jobName">
         <div class="td">
           <a
-            [routerLink]="'/jobDetails/' + job.id"
+            [routerLink]="'/job_details/' + job.id"
             class="text-decoration-none"
           >
-            <span>{{ job.jobName }}</span></a
+            <span>{{ job.name }}</span></a
           >
         </div>
       </td>
       <td class="jobDescription">
         <div class="td">
-          <span>{{ job.jobDescription }}</span>
+          <span>{{ job.description }}</span>
         </div>
       </td>
       <td>
         <div class="td">
-          R$ <span class="">{{ job.jobSalary }}</span>
+          R$ <span class="">{{ job.salary }}</span>
         </div>
       </td>
       <td>
         <div class="td">
-          <span>{{ job.jobDate }}</span>
+          <span>{{ job.expiration }}</span>
         </div>
       </td>
       <td class="tdBtns d-flex justify-content-center btns">
@@ -42,11 +42,11 @@
           ><button type="button" class="btn btn-danger">Excluir</button></a
         >
 
-        <a class="mx-2 updateJobBtn" [routerLink]="'/updateJob/' + job.id"
+        <a class="mx-2 updateJobBtn" [routerLink]="'/update_job/' + job.id"
           ><button type="button" class="btn btn-primary">Editar</button></a
         >
 
-        <a [routerLink]="'/jobDetails/' + job.id"
+        <a [routerLink]="'/job_details/' + job.id"
           ><button type="button" class="btn btn-success">Candidatos</button></a
         >
       </td>
