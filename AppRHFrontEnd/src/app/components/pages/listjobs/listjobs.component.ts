@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { JobserviceService } from '../../../services/jobservice.service';
 import { RouterLink } from '@angular/router';
 import { Job } from '../../../models/job';
+import { TestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-listjobs',
@@ -23,8 +24,8 @@ export class ListjobsComponent implements OnInit {
 
   deleteJobById(jobId: any) {
     this.jobService.deleteJobById(jobId).subscribe((response) => {
-      this.jobService.listJobs().subscribe((jobs: Job[]) => {
-        this.jobs = jobs;
+      this.jobService.listJobs().subscribe((jobs: any) => {
+        this.jobs = jobs.jobs;
       });
     });
   }
